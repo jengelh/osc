@@ -7383,7 +7383,10 @@ def print_request_list(apiurl, project, package = None, states = ('new', 'review
     if not conf.config['check_for_request_on_action'] and not force:
         return
     requests = get_request_list(apiurl, project, package, req_state=states)
-    msg = 'Pending requests for %s: %s (%s)'
+    if not sys.stdout.isatty():
+        msg = '\nPending requests for %s: %s (%s)'
+    else
+        msg = '\n\033[1mPending requests for %s: %s (%s)\033[0m'
     if package is None and len(requests):
         print(msg % ('project', project, len(requests)))
     elif len(requests):
